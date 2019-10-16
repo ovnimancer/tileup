@@ -10,12 +10,13 @@ options = {
   auto_zoom_levels: nil,
   input_filename: nil,
   output_dir: '.'
-
 }
 
 OptionParser.new do |o|
   o.on('--in=input_file', "Required input file, your large image to tile up.") { |input_filename| options[:input_filename] = input_filename }
-  o.on('--prefix=map_tile', "Prefix to append to tile files, e.g. --prefix=my_tile => my_tile_[XN]_[YN].png.") { |prefix| options[:filename_prefix] = prefix }
+  o.on('--prefix=map_tile', "Prefix to append to tile files, e.g. --prefix=my_tile => my_tile_[XN]_[YN].png") { |prefix| options[:filename_prefix] = prefix }
+  o.on('--prefix=col_shift', "Shift tile column name, e.g. --col_shift=20 => [XN + 20]_[YN].png") { |col_shift| options[:col_shift] = col_shift }
+  o.on('--prefix=col_shift', "Shift tile row name, e.g. --row_shift=20 => [XN]_[YN + 20].png") { |col_shift| options[:col_shift] = col_shift }
   o.on('--tile-width=256', "Tile width, should normally equal tile height.") { |width| options[:tile_width] = width }
   o.on('--tile-height=256', "Tile height, should normally equal tile width.") { |height| options[:tile_height] = height }
   o.on('--auto-zoom=', Integer, "Automatically scale input image N times, must be a number."){ |zooms| options[:auto_zoom_levels] = zooms }

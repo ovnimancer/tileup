@@ -13,6 +13,8 @@ module TileUp
         tile_width: 256,
         tile_height: 256,
         filename_prefix: "map_tile",
+        col_shift: 0,
+        row_shift: 0,
         output_dir: ".",
         extend_incomplete_tiles: true,
         verbose: false
@@ -88,7 +90,7 @@ module TileUp
         end
         # make output dir
         make_path(task[:output_dir])
-        self.make_tiles(image, image_path, @options.tile_width, @options.tile_height)
+        self.make_tiles(image, image_path, @options.tile_width, @options.tile_height, @options.col_shift, @options.row_shift)
         image = nil
       end
 
@@ -100,7 +102,7 @@ module TileUp
       FileUtils.mkdir_p directory_path
     end
 
-    def make_tiles(image, filename_prefix, tile_width, tile_height)
+    def make_tiles(image, filename_prefix, tile_width, tile_height, col_shift, row_shift)
       # find image width and height
       # then find out how many tiles we'll get out of
       # the image, then use that for the xy offset in crop.
@@ -147,9 +149,12 @@ module TileUp
           ci = ci.extent(tile_width, tile_height, 0, 0)
         end
 
-        @logger.verbose "Saving tile: #{c[:column]}, #{c[:row]}..."
-        ci.write("#{filename_prefix}_#{c[:column]}_#{c[:row]}.#{@extension}")
-        @logger.verbose "Saving tile: #{c[:column]}, #{c[:row]}... saved"
+        col_name = c[:column] + col_shift
+        row_name = c[:row] + row_shift
+
+        @logger.verbose "Saving tile: #{col_name}, #{row_name}..."
+        ci.write("#{filename_prefix}_#{col_name}_#{row_name}.#{@extension}")
+        @logger.verbose "Saving tile: #{col_name}, #{row_name}... saved"
 
         ci = nil
       end
