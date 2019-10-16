@@ -149,8 +149,8 @@ module TileUp
           ci = ci.extent(tile_width, tile_height, 0, 0)
         end
 
-        col_name = c[:column] + col_shift
-        row_name = c[:row] + row_shift
+        col_name = c[:column] + col_shift.to_i
+        row_name = c[:row] + row_shift.to_i
 
         @logger.verbose "Saving tile: #{col_name}, #{row_name}..."
         ci.write("#{filename_prefix}_#{col_name}_#{row_name}.#{@extension}")
